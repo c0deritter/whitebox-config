@@ -29,3 +29,37 @@ export function merge(...objects: any[]) {
     return previous
   }, {})
 }
+
+export function getConfigByArgv() {
+  const args = process.argv.slice(2)
+
+  if (args.length > 0) {
+    const mode = args[0]
+
+    if (mode == 'test') {
+      return test
+    }
+
+    if (mode == 'prod') {
+      return prod
+    }
+  }
+
+  return dev
+}
+
+export function getConfigByEnv() {
+  for (let prop in process.env) {
+    if (prop.toLowerCase() == 'mode') {
+      if (process.env[prop] == 'test') {
+        return test
+      }
+  
+      if (process.env[prop] == 'prod') {
+        return prod
+      }  
+    }
+  }
+
+  return dev
+}
